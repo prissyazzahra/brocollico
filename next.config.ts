@@ -1,22 +1,20 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  module.exports = {
-    webpack: (config, options) => {
-      config.module.rules.push({
-        test: /\.mdx/,
-        use: [
-          options.defaultLoaders.babel,
-          {
-            loader: '@mdx-js/loader',
-            options: pluginOptions.options,
-          },
-        ],
-      })
-      return config
-    },
-  }
+  webpack: (config, { isServer }) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+      };
+    }
+
+    return config;
+  },
 };
 
 export default nextConfig;
