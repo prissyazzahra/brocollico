@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "./colors";
 @import "./base";
+@import "./overrides";
 
 @tailwind base;
 @tailwind colors;
+@tailwind overrides;
