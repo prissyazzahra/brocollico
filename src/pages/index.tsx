@@ -55,7 +55,7 @@ const Homepage = () => {
                 {loading ? 'Sending, please wait...' : 'Send'}
               </Button>
             </ModalActions>
-            { error.server && <div className="text-red-500 mb-2">{error.server}</div> }
+            { error.server && <div className="text-red-500 mt-2">{error.server}</div> }
           </div>
         </Modal.Content>
       </Modal>

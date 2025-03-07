@@ -1,13 +1,14 @@
-import { useHomepage } from "@/hooks/pages";
-import Homepage from "..";
+import { useHomepage } from "@/hooks/pages"
+import Homepage from ".."
 import '@testing-library/jest-dom'
 import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react'
-import axios from "axios";
+import axios from "axios"
 
 
 describe("Homepage", () => {
   jest.mock('axios')
   beforeEach(() => {
+    jest.clearAllMocks()
     render(<Homepage />)
   })
 
@@ -67,7 +68,53 @@ describe("Homepage", () => {
     })
   })
 
-  it('Should call API when all inputs are filled', async () => {
+  it('Should get error response from API sending used email', async () => {
+    const { result } = renderHook(() => useHomepage())
+
+    fireEvent.click(screen.getByText('Request an invite'))
+
+    act(() => {
+      result.current.setName('Name')
+      result.current.setEmail('usedemail@airwallex.com')
+      result.current.setConfirmEmail('usedemail@airwallex.com')
+    })
+
+    const inputName = screen.getByPlaceholderText('Full name')
+    const inputEmail = screen.getByPlaceholderText('Email')
+    const inputConfirm = screen.getByPlaceholderText('Confirm email')
+
+    fireEvent.change(inputName, { target: { value: 'Name' } })
+    fireEvent.change(inputEmail, { target: { value: 'usedemail@airwallex.com' } })
+    fireEvent.change(inputConfirm, { target: { value: 'usedemail@airwallex.com' } })
+
+    await waitFor(async () => {
+      expect(result.current.name).toBe('Name')
+      expect(result.current.email).toBe('usedemail@airwallex.com')
+    })
+
+    fireEvent.click(screen.getByText('Send'))
+
+    const err = {
+      status: 400,
+      errorMessage: 'Bad request'
+    }
+
+    axios.post = jest.fn().mockRejectedValueOnce(err)
+    await act(async () => {
+      try {
+        await result.current.submitEmail()
+        expect(await screen.findByText('Bad request')).toBeInTheDocument()
+      } catch (respError: any) {
+        act(() => {
+          result.current.validateForms(respError?.errorMessage, 'server')
+        })
+        expect(respError?.status).toBe(400)
+      }
+    })
+    expect(axios.post).toHaveBeenCalled()
+  })
+
+  it('Should call API successfully when all inputs are filled', async () => {
     const { result } = renderHook(() => useHomepage())
 
     fireEvent.click(screen.getByText('Request an invite'))
@@ -87,9 +134,9 @@ describe("Homepage", () => {
     fireEvent.change(inputConfirm, { target: { value: 'email@email.com' } })
 
     await waitFor(async () => {
-      expect(result.current.name).toBe('Name');
-      expect(result.current.email).toBe('email@email.com');
-      expect(result.current.confirmEmail).toBe('email@email.com');
+      expect(result.current.name).toBe('Name')
+      expect(result.current.email).toBe('email@email.com')
+      expect(result.current.confirmEmail).toBe('email@email.com')
     })
 
     fireEvent.click(screen.getByText('Send'))

@@ -19,9 +19,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
-    "@babel/plugin-transform-react-jsx": "^7.25.9",
-    "@babel/preset-env": "^7.26.9",
-    "@babel/preset-typescript": "^7.26.0",
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
     "@swc/core": "^1.11.7",
