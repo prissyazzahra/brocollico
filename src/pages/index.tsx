@@ -36,7 +36,7 @@ const Homepage = () => {
             <Input className="mb-2" value={confirmEmail} onChange={(e: any) => setConfirmEmail(e?.target?.value)} placeholder="Confirm email"/>
             { error.confirm && <div className="text-red-500 mb-2">{error.confirm}</div> }
             <ModalActions>
-              <Button disabled={loading} className="main-button w-full" onClick={() => {
+              <Button disabled={loading} className={`${loading ? '' : 'main-button'} w-full`} onClick={() => {
                 const errors: Record<string, string> = validateForms()
                 if (Object.keys(errors).length < 1) {
                     setLoading(true)
