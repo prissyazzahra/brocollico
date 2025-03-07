@@ -2,11 +2,11 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   webpack: (config, { isServer }) => {
-    // config.module.rules.push({
-    //   test: /\.svg$/,
-    //   issuer: /\.tsx?$/,
-    //   use: ['@svgr/webpack'],
-    // });
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.tsx?$/,
+      use: ['@svgr/webpack'],
+    });
 
     if (!isServer) {
       config.resolve.fallback = {

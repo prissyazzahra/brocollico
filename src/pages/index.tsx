@@ -1,4 +1,4 @@
-import { useIndex } from "@/hooks/pages"
+import { useHomepage } from "@/hooks/pages"
 import { Modal, Input, Header, ModalActions, Button } from "semantic-ui-react"
 
 const Homepage = () => {
@@ -19,7 +19,7 @@ const Homepage = () => {
     clearValues,
     loading,
     setLoading
-   } = useIndex()
+   } = useHomepage()
 
   return (
     <>
@@ -82,7 +82,7 @@ const Homepage = () => {
         <div className="center-wrapper">
           <h1 className="m-2">A better way to enjoy everyday.</h1>
           <p className="m-2">Be the first to know when we launch.</p>
-          <button className="main-button" onClick={() => setOpenModal(true)}>Request an invite</button>
+          <Button className="main-button" onClick={() => setOpenModal(true)}>Request an invite</Button>
         </div>
         <div className="p-4 w-full text-center border-t-[1px] border-gray-300 inset-shadow-sm fixed bottom-[0]">
           Made with ❤️ in Melbourne.

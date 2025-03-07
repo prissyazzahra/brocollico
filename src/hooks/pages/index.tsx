@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
 
-export const useIndex = () => {
+export const useHomepage = () => {
   const [openModal, setOpenModal] = useState<boolean>(false)
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
